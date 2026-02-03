@@ -43,8 +43,9 @@ Automatically generates a fix PR for a Linear issue.
 ```
 @bugbot fix
 https://linear.app/workspace/issue/PROJ-123
-https://github.com/yourorg/yourrepo
 ```
+
+**Note:** Repository is configured in `consumer/src/config.ts` (no need to specify in Discord)
 
 ## Setup
 
@@ -64,7 +65,13 @@ https://github.com/yourorg/yourrepo
 npm install
 ```
 
-2. Create KV namespaces:
+2. Configure your repository:
+```bash
+cp consumer/src/config.example.ts consumer/src/config.ts
+# Edit consumer/src/config.ts and set REPO_URL to your GitHub repo
+```
+
+3. Create KV namespaces:
 ```bash
 npx wrangler kv:namespace create "BUGBOT_KV"
 npx wrangler kv:namespace create "BUGBOT_KV" --preview
@@ -72,13 +79,13 @@ npx wrangler kv:namespace create "BUGBOT_KV" --preview
 
 Update the namespace IDs in `gateway/wrangler.toml` and `consumer/wrangler.toml`.
 
-3. Create queue:
+4. Create queue:
 ```bash
 npx wrangler queues create bugbot-commands
 npx wrangler queues create bugbot-commands-dlq
 ```
 
-4. Set secrets:
+5. Set secrets:
 ```bash
 # Gateway secrets
 npx wrangler secret put DISCORD_PUBLIC_KEY --config gateway/wrangler.toml
@@ -94,7 +101,7 @@ npx wrangler secret put CLOUDFLARE_ACCOUNT_ID --config consumer/wrangler.toml
 npx wrangler secret put CLOUDFLARE_API_TOKEN --config consumer/wrangler.toml
 ```
 
-5. Build and deploy container:
+6. Build and deploy container:
 ```bash
 cd container
 docker build -t bugbot-executor .
@@ -102,7 +109,7 @@ docker build -t bugbot-executor .
 # See container/README.md for details
 ```
 
-6. Deploy workers:
+7. Deploy workers:
 ```bash
 npm run deploy:all
 ```
