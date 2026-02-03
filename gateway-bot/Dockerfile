@@ -1,14 +1,13 @@
 FROM node:20-slim
 
-# For Cloudflare Containers
 WORKDIR /app
 
-COPY package*.json ./
+# Copy from gateway-bot directory (Railway builds from repo root)
+COPY gateway-bot/package*.json ./
 RUN npm ci --production
 
-COPY . .
+COPY gateway-bot/ ./
 
-# Expose port for health checks
 EXPOSE 8080
 
 CMD ["node", "index.js"]
