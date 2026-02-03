@@ -1,0 +1,9 @@
+{
+  "name": "@bugbot/shared",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "discord-interactions": "^4.1.0"
+  }
+}

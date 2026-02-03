@@ -1,0 +1,27 @@
+name = "bugbot-consumer"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+# Queue consumer
+[[queues.consumers]]
+queue = "bugbot-commands"
+max_batch_size = 1
+max_batch_timeout = 30
+max_retries = 3
+dead_letter_queue = "bugbot-commands-dlq"
+
+# KV namespaces
+[[kv_namespaces]]
+binding = "BUGBOT_KV"
+id = "YOUR_KV_NAMESPACE_ID"
+preview_id = "YOUR_KV_PREVIEW_ID"
+
+# Secrets (set via: wrangler secret put <NAME>)
+# LINEAR_API_KEY
+# POSTHOG_API_KEY
+# POSTHOG_PROJECT_ID
+# GITHUB_TOKEN
+# DISCORD_BOT_TOKEN
+# CLOUDFLARE_ACCOUNT_ID
+# CLOUDFLARE_API_TOKEN
+# CONTAINER_BINDING_NAME (optional, defaults to "bugbot-executor")
