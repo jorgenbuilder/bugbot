@@ -2,6 +2,7 @@ import { QueueMessage, LinearIssue } from '@bugbot/shared';
 import { createLinearClient, getIssue, addComment } from '../clients/linear';
 import { createGitHubClient, searchCode, createBranch, createPullRequest } from '../clients/github';
 import { sendDiscordMessage } from '../index';
+import { REPO_URL } from '../config';
 
 interface Env {
   BUGBOT_KV: KVNamespace;
@@ -38,11 +39,8 @@ export async function handleFix(msg: QueueMessage, env: Env): Promise<void> {
     throw new Error('No Linear issue found. Run `@bugbot contextualize` first.');
   }
 
-  // 2. Extract GitHub repo
-  const githubRepoUrl = msg.extractedRefs.githubRepoUrl;
-  if (!githubRepoUrl) {
-    throw new Error('No GitHub repository URL found. Please provide a repo link.');
-  }
+  // 2. Use hardcoded repo
+  const githubRepoUrl = REPO_URL;
 
   // 3. Search for relevant frontend files
   const searchQuery = extractSearchTerms(linearIssue.title, linearIssue.description);

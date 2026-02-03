@@ -6,3 +6,6 @@ dist/
 .DS_Store
 .env
 .env.local
+
+# Config (contains repo URL)
+consumer/src/config.ts
