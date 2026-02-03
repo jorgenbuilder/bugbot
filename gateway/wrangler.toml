@@ -10,8 +10,8 @@ binding = "BUGBOT_QUEUE"
 # KV namespaces
 [[kv_namespaces]]
 binding = "BUGBOT_KV"
-id = "YOUR_KV_NAMESPACE_ID"
-preview_id = "YOUR_KV_PREVIEW_ID"
+id = "2a3a489ed1054ff1a33be4d27cdbf11c"
+preview_id = "98d654c9428e472e84c7f285993b90ee"
 
 # Secrets (set via: wrangler secret put <NAME>)
 # DISCORD_PUBLIC_KEY

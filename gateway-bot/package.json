@@ -1,0 +1,14 @@
+{
+  "name": "@bugbot/gateway-bot",
+  "version": "1.0.0",
+  "description": "Discord Gateway bot for handling @mentions",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.1"
+  }
+}

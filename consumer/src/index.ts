@@ -15,6 +15,7 @@ interface Env {
 }
 
 export default {
+  // Queue consumer (from Cloudflare Queue)
   async queue(batch: MessageBatch<QueueMessage>, env: Env): Promise<void> {
     for (const message of batch.messages) {
       try {
@@ -25,6 +26,32 @@ export default {
         message.retry();
       }
     }
+  },
+
+  // HTTP endpoint (from gateway-bot)
+  async fetch(request: Request, env: Env): Promise<Response> {
+    // Simple auth check
+    const auth = request.headers.get('X-Cloudflare-Queue-Auth');
+    if (auth !== env.CLOUDFLARE_API_TOKEN) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+
+    if (request.url.endsWith('/__queue') && request.method === 'POST') {
+      try {
+        const body = await request.json() as { messages: Array<{ body: QueueMessage }> };
+
+        for (const message of body.messages) {
+          await processMessage(message.body, env);
+        }
+
+        return new Response('OK', { status: 200 });
+      } catch (error) {
+        console.error('Error processing HTTP queue message:', error);
+        return new Response('Error', { status: 500 });
+      }
+    }
+
+    return new Response('Not Found', { status: 404 });
   }
 };
 
